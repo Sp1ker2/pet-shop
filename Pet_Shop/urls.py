@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import TokenRefreshView
+from Pet_Shop.pets.views import CustomAPIToken, UserListRegister
 
 urlpatterns = [
+       path('login/', CustomAPIToken.as_view()),
+       path('refresh/', TokenRefreshView.as_view()),
+       path('register/', UserListRegister.as_view()),
        path('', include('Pet_Shop.pets.urls')),
        path('admin/', admin.site.urls),
 ]
+

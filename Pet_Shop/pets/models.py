@@ -28,7 +28,6 @@ class Items(models.Model):
 class Users(AbstractUser):
     email = models.EmailField(unique=True)
     username = None
-    password = models.CharField(max_length=100)
     logo = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
 
