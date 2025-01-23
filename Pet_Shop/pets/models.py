@@ -41,7 +41,7 @@ class Users(AbstractUser):
 
 
 class Orders(models.Model):
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey("pets.Users", on_delete=models.DO_NOTHING)
 
