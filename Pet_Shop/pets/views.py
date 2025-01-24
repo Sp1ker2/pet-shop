@@ -3,7 +3,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Items, Users, Orders, FavouriteItems
-from .permissions import IsOwnerOrReadOnly, IsOwner
+from .permissions import IsThisUser, IsOwner
 from .serializers import ItemsSerializer, UsersSerializer, FavouriteItemsSerializer, OrdersSerializer
 
 
@@ -30,7 +30,7 @@ class UserListRegister(generics.CreateAPIView):
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    permission_classes = [permissions.IsAuthenticated, IsThisUser]
 
 
 class AllOrdersList(generics.ListAPIView):
@@ -49,7 +49,7 @@ class OrdersList(generics.CreateAPIView):
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwner]
+    permission_classes = [permissions.IsAuthenticated, IsOwner, permissions.IsAdminUser]
 
     def perform_update(self, serializer):
         serializer.save(user_id=self.request.user.id)
