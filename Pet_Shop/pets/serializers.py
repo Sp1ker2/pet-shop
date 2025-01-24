@@ -58,12 +58,11 @@ class OrdersSerializer(serializers.ModelSerializer):
             ItemsOrders.objects.create(order_id=order, **item_data)
         return order
 
-    # def update(self, instance, validated_data):
-    #     items_data = validated_data.pop('items')
-    #     items = instance.items
-    #     instance.status = validated_data.get('status', instance.status)
-    #     for item_data in items_data:
-    #         item_data.quantity =
+    def update(self, instance, validated_data):
+        items_data = validated_data.pop('items')
+        items = instance.items
+        instance.status = validated_data.get('status', instance.status)
+
 
     class Meta:
         model = Orders

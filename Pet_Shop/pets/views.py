@@ -1,10 +1,10 @@
-from rest_framework import mixins, generics, permissions
+from rest_framework import generics, permissions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Items, Users, Orders, FavouriteItems
+from .models import Items, Users, Orders
 from .permissions import IsThisUser, IsOwner
-from .serializers import ItemsSerializer, UsersSerializer, FavouriteItemsSerializer, OrdersSerializer
+from .serializers import ItemsSerializer, UsersSerializer, OrdersSerializer
 
 
 class ItemsList(generics.ListCreateAPIView):
