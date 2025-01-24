@@ -1,13 +1,9 @@
-from django.contrib.auth import authenticate
-from django.http import HttpResponse, Http404
-from rest_framework.decorators import api_view
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import mixins, generics, permissions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Items, Users, Orders, FavouriteItems
+from .permissions import IsOwnerOrReadOnly, IsOwner
 from .serializers import ItemsSerializer, UsersSerializer, FavouriteItemsSerializer, OrdersSerializer
 
 
@@ -34,14 +30,18 @@ class UserListRegister(generics.CreateAPIView):
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
 
 
-class OrdersList(generics.ListCreateAPIView):
+class AllOrdersList(generics.ListAPIView):
+    queryset = Orders.objects.all()
+    serializer_class = OrdersSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+class OrdersList(generics.CreateAPIView):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
     permission_classes = [permissions.IsAuthenticated]
-
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.request.user)
@@ -49,7 +49,7 @@ class OrdersList(generics.ListCreateAPIView):
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Orders.objects.all()
     serializer_class = OrdersSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
 
     def perform_update(self, serializer):
         serializer.save(user_id=self.request.user.id)
