@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Корзина</title>
+</head>
+<body>
+    <h1>Ваша корзина</h1>
+    <ul>
+        {% for item in cart_items %}
+            <li>
+                {{ item.product.name }} - {{ item.quantity }} шт. - {{ item.product.price }} грн за шт.
+            </li>
+        {% endfor %}
+    </ul>
+    <p>Общая стоимость: {{ total_price }} грн</p>
+    <a href="#">Оформить заказ</a>
+</body>
+</html>
