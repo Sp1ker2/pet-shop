@@ -14,3 +14,4 @@ class CategoryAdmin(admin.ModelAdmin):
 from .models import Order
 
 admin.site.register(Order)
+
